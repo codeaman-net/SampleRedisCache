@@ -1,7 +1,8 @@
-using System.Text.Json;
-using System.Xml;
 using Microsoft.Extensions.Caching.Distributed;
 using Scalar.AspNetCore;
+using System.Text.Json;
+using System.Xml;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,14 +55,14 @@ app.MapGet("/weatherforecast", (IDistributedCache distributedCache ) =>
     })
     .WithName("GetWeatherForecast");
 
-app.MapPost("/rss-feeds", async (string link, IDistributedCache distributedCache) =>
+app.MapGet("/rss-feeds/", async ([FromQuery] string link, [FromServices] IDistributedCache distributedCache) =>
 {
     if (string.IsNullOrEmpty(link))
     {
         return Results.BadRequest("Link is required");
     }
 
-    string key = $"rss_link_{link}";
+    var key = $"_rss_link_{link}";
 
     if (distributedCache.GetString(key) != null)
     {
@@ -72,30 +73,26 @@ app.MapPost("/rss-feeds", async (string link, IDistributedCache distributedCache
     var httpClient = new HttpClient();
     var response = await httpClient.GetAsync(link);
     var content = await response.Content.ReadAsStringAsync();
-    
-    var rssItems = new List<RssItem>();
-    
+
     var doc = new XmlDocument();
     doc.LoadXml(content);
     
     var items = doc.SelectNodes("//item");
     
-    rssItems = items.OfType<XmlNode>().Select(item => new 
+    var rssItems = items?.OfType<XmlNode>().Select(item => new 
         RssItem
         (
-        DateTime.Parse(item.SelectSingleNode("pubDate").InnerText),
-        item.SelectSingleNode("title").InnerText,
-        item.SelectSingleNode("link").InnerText
+            DateTime.Parse(item.SelectSingleNode("pubDate").InnerText),
+            item.SelectSingleNode("title").InnerText,
+            item.SelectSingleNode("link").InnerText
         )).ToList();
     
     distributedCache.SetString(key, JsonSerializer.Serialize(rssItems), new DistributedCacheEntryOptions
     {
         AbsoluteExpiration = DateTime.Now.AddMinutes(5)
     });
-    
     return  Results.Ok(rssItems);
-    
-}).WithName("PostRssFeeds");
+}).WithName("GetRssFeeds");
 
 app.Run();
 
