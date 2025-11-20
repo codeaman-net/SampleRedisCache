@@ -1,0 +1,103 @@
+###############################################
+# DOTNET API & CONSOLE + JETBRAINS RIDER
+###############################################
+
+# ---------------------------------------------
+# JetBrains Rider
+# ---------------------------------------------
+.idea/
+*.iml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf/
+.idea/**/contentModel.xml
+
+# Rider cache dirs
+.idea/.idea.*.dir/
+.idea/**/modules.xml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# ---------------------------------------------
+# .NET Build Output
+# ---------------------------------------------
+bin/
+obj/
+Debug/
+Release/
+[Bb]uild/
+[Ll]ogs/
+*.log
+
+# Runtime artifacts
+*.dll
+*.exe
+*.pdb
+
+# Publish output
+publish/
+
+# Entity Framework (isteğe bağlı)
+Migrations/
+
+# ---------------------------------------------
+# NuGet
+# ---------------------------------------------
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+.nuget/
+
+# ---------------------------------------------
+# ASP.NET Core / API Specific
+# ---------------------------------------------
+# Static files cache (wwwroot)
+wwwroot/css/
+wwwroot/js/
+wwwroot/lib/
+wwwroot/node_modules/
+
+# Node artifacts (swagger UI veya frontend parçaları eklendiğinde oluşabilir)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# CSR build outputs (eğer API içinde React/Vue/Angular varsa)
+dist/
+build/
+
+# ---------------------------------------------
+# Secrets & Environment Files
+# ---------------------------------------------
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+.env
+.env.*
+*.key
+*.pem
+
+# ---------------------------------------------
+# System / OS
+# ---------------------------------------------
+*.DS_Store
+Thumbs.db
+
+# ---------------------------------------------
+# Optional: Rider AWS/Azure Plugins
+# ---------------------------------------------
+.idea/**/aws.xml
+.idea/**/Azure.xml
+
+###############################################
+# BİTTİ
+###############################################
